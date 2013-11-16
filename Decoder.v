@@ -220,7 +220,9 @@ always@(*)begin
 		6'b100011:MemtoReg_o	<= 1;			
 		6'b101011:MemtoReg_o	<= 0;    //or X	
 		6'b000010:MemtoReg_o	<= 0;
-
+		
+		//lui
+		6'b001111: MemtoReg_o <= 0;
 	endcase
 end
 

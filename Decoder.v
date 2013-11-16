@@ -17,7 +17,7 @@ module Decoder(
 	RegDst_o,
 	Branch_o,
 	//***************************************************
-	BranchType_o,
+	branchType_o,
 	Jump_o,
 	MemRead_o,
 	MemWrite_o,
@@ -28,18 +28,23 @@ module Decoder(
 input  [6-1:0] instr_op_i;
 
 output         RegWrite_o;
-output [3-1:0] ALU_op_o;
+output [4-1:0] ALU_op_o;
 output [1:0]   ALUSrc_o;
 output         RegDst_o;
 output         Branch_o;
-output reg	BranchType_o;
+
+/***DADA***/
+output reg [2-1:0]	branchType_o;
+
+
+
 output reg	Jump_o;
 output reg	MemRead_o;
 output reg	MemWrite_o;
 output reg	MemtoReg_o;
  
 //Internal Signals
-reg    [3-1:0] ALU_op_o;
+reg    [4-1:0] ALU_op_o;
 reg    [1:0]   ALUSrc_o;
 reg            RegWrite_o;
 reg            RegDst_o;
@@ -53,37 +58,61 @@ reg            Branch_o;
 always@(*)begin
 	case(instr_op_i)
 		6'b000000:begin			//R-type including the MULTIPLICATION
-			ALU_op_o <= 3'b010;
+			ALU_op_o <= 4'b0010;
         end
 		6'b001000:begin			//ADDI			
-			ALU_op_o <= 3'b100;
+			ALU_op_o <= 4'b0100;
 	    end
 		6'b001101:begin			//ORI
-		    ALU_op_o <= 3'b101;
+		    ALU_op_o <= 4'b0101;
         end
 		6'b000100:begin			//BEQ
-		    ALU_op_o <= 3'b001;
+		    ALU_op_o <= 4'b0001;
         end
 		6'b100011:begin			//lw
-		    ALU_op_o <= 3'b000;
+		    ALU_op_o <= 4'b0000;
         end		
 		6'b101011:begin			//sw
-		    ALU_op_o <= 3'b000;
+		    ALU_op_o <= 4'b0000;
         end
 		6'b000010:begin			//jump
-		    ALU_op_o <= 3'b000;	//or X
+		    ALU_op_o <= 4'b0000;	//or X
+        end
+		
+		//branch
+		6'b000111:begin			//bgt
+		    ALU_op_o <= 4'b1011;	
+        end
+		6'b000101:begin			//bnez
+		    ALU_op_o <= 4'b1010;	
+        end
+		6'b000001:begin			//bgez
+		    ALU_op_o <= 4'b1001;		
+        end
+		
+		//lui
+		6'b001111:begin	
+		    ALU_op_o <= 4'b1000;		
         end
 	endcase
 end
+
 always@(*)begin
 	case(instr_op_i)
-		6'b000000:ALUSrc_o <= 2'b00;
-		6'b001000:ALUSrc_o <= 2'b01;
-		6'b001101:ALUSrc_o <= 2'b10;
-		6'b000100:ALUSrc_o <= 2'b00;
+		6'b000000: ALUSrc_o <= 2'b00;
+		6'b001000: ALUSrc_o <= 2'b01;
+		6'b001101: ALUSrc_o <= 2'b10; //zero extension
+		6'b000100: ALUSrc_o <= 2'b00;
 		6'b100011: ALUSrc_o <= 2'b01;
 		6'b101011: ALUSrc_o <= 2'b01;
 		6'b000010: ALUSrc_o <= 2'b00;	//or X
+		//branch
+		6'b000111: ALUSrc_o <= 2'b00;  //bgt = branch greater than
+		6'b000101: ALUSrc_o <= 2'b00;   //bnez = branch non equal zero
+		6'b000001: ALUSrc_o <= 2'b00;   //bgez = branch greater equal zero
+		6'b000100: ALUSrc_o <= 2'b00;  //beq = branch equal
+		//lui
+		6'b001111: ALUSrc_o <= 2'b10; //zero
 	endcase
 end
 
@@ -96,6 +125,10 @@ always@(*)begin
 		6'b100011:RegWrite_o <= 1;
 		6'b101011:RegWrite_o <= 0;
 		6'b000010:RegWrite_o <= 0;	
+		//lui
+		6'b001111: RegWrite_o <= 1;
+		default: RegWrite_o <= 0;	
+		
 	endcase
 end
 always@(*)begin
@@ -107,6 +140,9 @@ always@(*)begin
 		6'b100011:RegDst_o <= 0;
 		6'b101011:RegDst_o <= 0;		//or X
 		6'b000010:RegDst_o <= 0;		//or X
+
+		//lui
+		6'b001111: RegDst_o <= 0;
 	endcase
 end
 always@(*)begin
@@ -117,20 +153,28 @@ always@(*)begin
 		6'b000100:Branch_o <= 1;
 		6'b100011:Branch_o <= 0;
 		6'b101011:Branch_o <= 0;
-		6'b000010:Branch_o <= 0;			
+		6'b000010:Branch_o <= 0;
+		6'b000111:Branch_o <= 1;  //bgt = branch greater than
+		6'b000101:Branch_o <= 1;  //bnez = branch non equal zero
+		6'b000001:Branch_o <= 1;  //bgez = branch greater equal zero
+		6'b000100:Branch_o <= 1;  //beq = branch equal
+		//lui
+		6'b001111: Branch_o <= 0;
 	endcase
 end
+
+/***DADA: branchType***/
 always@(*)begin
 	case(instr_op_i)
-		6'b000000:BranchType_o <=0;
-		6'b001000:BranchType_o <=0; 
-		6'b001101:BranchType_o <=0;
-		6'b000100:BranchType_o <=0;
-		6'b100011:BranchType_o <=0; 
-		6'b101011:BranchType_o <=0;
-		6'b000010:BranchType_o <=0;
+		6'b000111:branchType_o <=3;  //bgt = branch greater than
+		6'b000101:branchType_o <=2;  //bnez = branch non equal zero
+		6'b000001:branchType_o <=1;  //bgez = branch greater equal zero
+		6'b000100:branchType_o <=0;  //beq = branch equal
 	endcase
 end
+
+
+
 always@(*)begin
 	case(instr_op_i)
 		6'b000000:Jump_o <= 0;
@@ -140,6 +184,7 @@ always@(*)begin
 		6'b100011:Jump_o <= 0;
 		6'b101011:Jump_o <= 0;
 		6'b000010:Jump_o <= 1;
+		default: Jump_o <= 0;
 	endcase
 end
 always@(*)begin
@@ -151,6 +196,7 @@ always@(*)begin
 		6'b100011:MemRead_o <= 1;
 		6'b101011:MemRead_o <= 0;
 		6'b000010:MemRead_o <= 0;
+		default: MemRead_o <= 0;
 	endcase
 end
 always@(*)begin
@@ -162,6 +208,7 @@ always@(*)begin
 		6'b100011:MemWrite_o <= 0;	
 		6'b101011:MemWrite_o <= 1;
 		6'b000010:MemWrite_o <= 0;
+		default: MemWrite_o <= 0;
 	endcase
 end
 always@(*)begin
@@ -172,7 +219,8 @@ always@(*)begin
 		6'b000100:MemtoReg_o	<= 0;		
 		6'b100011:MemtoReg_o	<= 1;			
 		6'b101011:MemtoReg_o	<= 0;    //or X	
-		6'b000010:MemtoReg_o	<= 0;    		
+		6'b000010:MemtoReg_o	<= 0;
+
 	endcase
 end
 

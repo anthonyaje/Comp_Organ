@@ -54,11 +54,9 @@ reg [31:0]s1,s2;
 
 always@(*)begin
 	case(ALU_control)
-		//*********************************************
-		8:begin	
+		8:begin
 			result <= src1 * src2;
 		end
-		//#############################################
 		0:begin
 			result <= src1 & src2;
 		end
@@ -82,20 +80,23 @@ always@(*)begin
 				3'b000:begin
 					result <= (src1<src2)?1:0;
 				end
-				3'b001:begin
+				3'b001:begin //sgt
 					result <= (src1>src2)?1:0;
 				end
-				3'b010:begin
+				3'b010:begin 
 					result <= (src1<=src2)?1:0;
 				end
-				3'b011:begin
+				3'b011:begin //ge
 					result <= (src1>=src2)?1:0;
 				end
-				3'b110:begin
+				3'b110:begin //eq
 					result <= (src1==src2)?1:0;
 				end
-				3'b100:begin
+				3'b100:begin //neq
 					result <= (src1!=src2)?1:0;
+				end
+				3'b101:begin //greater than or equal to src2-1
+					result <= (src1>=(src2-1))?1:0;
 				end
 			endcase
 		end

@@ -42,7 +42,7 @@ wire [5-1:0] write_reg;
 
 wire  reg_des;
 wire  reg_write;
-wire  [3-1:0] alu_op;
+wire  [4-1:0] alu_op;
 wire  mem_write;
 wire  [1:0] alu_src;
 wire  branch;
@@ -50,8 +50,8 @@ wire  zero_flag;
 wire  cout_flag;
 wire  overflow_flag;
 wire  select_adder2;
-wire [2:0] bonus_disable = 3'b000;
-wire branchType;
+wire [2:0] bonus;
+wire [2-1:0]branchType;
 wire jump;
 wire memRead;
 wire memWrite;
@@ -60,7 +60,7 @@ wire [27:0] temp_jump_add;
 
 wire [31:0] zero_ex;
 assign zero_ex = {16'd0, inst_o[15:0]};
-assign select_adder2 = branch & zero_flag;
+assign select_adder2 = branch & ALU_res[0];
 assign tem_jump_wire = jump_address[27:0];
 assign jump_address = {adder1_o[31:28],temp_jump_add};
 
@@ -122,7 +122,7 @@ Decoder Decoder(
 	    .ALUSrc_o(alu_src),   
 	    .RegDst_o(reg_des),   
 		.Branch_o(branch),
-		.BranchType_o(branchType),
+		.branchType_o(branchType),
 		.Jump_o(jump),
 		.MemRead_o(memRead),
 		.MemWrite_o(memWrite),
@@ -132,7 +132,8 @@ Decoder Decoder(
 ALU_Ctrl AC(
         .funct_i(inst_o[5:0]),   
         .ALUOp_i(alu_op),   
-        .ALUCtrl_o(ALUCtrl) 
+        .ALUCtrl_o(ALUCtrl),
+		.bonus_control_o(bonus)
         );
 	
 Sign_Extend SE(
@@ -153,7 +154,7 @@ alu ALU(
         .src1(RSdata_o),
 	    .src2(ALU_in2),
 	    .ALU_control(ALUCtrl),
-		.bonus_control(bonus_disable),
+		.bonus_control(bonus),
 	    .result(ALU_res),
 		.zero(zero_flag),
 		.cout(cout_flag),
@@ -189,6 +190,17 @@ Shift_Left_Two_32 Shifter(
         .data_o(SE_data_shift)
         ); 		
 		
+/*
+MUX_4to1 #(.size(32)) Mux_PC_Source(
+        .data0_i(branch_data_0),
+        .data1_i(branch_data_1),
+		.data2_i(branch_data_2),
+		.data3_i(branch_data_3),
+        .select_i(branchType),
+        .data_o(branch_data)
+        );	
+*/
+	
 MUX_2to1 #(.size(32)) Mux_PC_Source(
         .data0_i(adder1_o),
         .data1_i(adder2_o),

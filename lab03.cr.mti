@@ -1,0 +1,115 @@
+{C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Simple_Single_CPU.v} {1 {vlog -work work {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Simple_Single_CPU.v}
+Model Technology ModelSim PE Student Edition vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module Simple_Single_CPU
+
+Top level modules:
+	Simple_Single_CPU
+
+} {} {}} {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/alu.v} {1 {vlog -work work {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/alu.v}
+Model Technology ModelSim PE Student Edition vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module alu
+
+Top level modules:
+	alu
+
+} {} {}} {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Data_Memory.v} {1 {vlog -work work {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Data_Memory.v}
+Model Technology ModelSim PE Student Edition vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module Data_Memory
+
+Top level modules:
+	Data_Memory
+
+} {} {}} {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Shift_Left_Two_28.v} {1 {vlog -work work {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Shift_Left_Two_28.v}
+Model Technology ModelSim PE Student Edition vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module Shift_Left_Two_28
+
+Top level modules:
+	Shift_Left_Two_28
+
+} {} {}} {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Shift_Left_Two_32.v} {1 {vlog -work work {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Shift_Left_Two_32.v}
+Model Technology ModelSim PE Student Edition vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module Shift_Left_Two_32
+
+Top level modules:
+	Shift_Left_Two_32
+
+} {} {}} {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/ALU_Ctrl.v} {1 {vlog -work work {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/ALU_Ctrl.v}
+Model Technology ModelSim PE Student Edition vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module ALU_Ctrl
+
+Top level modules:
+	ALU_Ctrl
+
+} {} {}} {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Test_Bench.v} {1 {vlog -work work {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Test_Bench.v}
+Model Technology ModelSim PE Student Edition vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module TestBench
+
+Top level modules:
+	TestBench
+
+} {} {}} {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/MUX_2to1.v} {1 {vlog -work work {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/MUX_2to1.v}
+Model Technology ModelSim PE Student Edition vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module MUX_2to1
+
+Top level modules:
+	MUX_2to1
+
+} {} {}} {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Sign_Extend.v} {1 {vlog -work work {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Sign_Extend.v}
+Model Technology ModelSim PE Student Edition vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module Sign_Extend
+
+Top level modules:
+	Sign_Extend
+
+} {} {}} {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Adder.v} {1 {vlog -work work {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Adder.v}
+Model Technology ModelSim PE Student Edition vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module Adder
+
+Top level modules:
+	Adder
+
+} {} {}} {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/MUX_4to1.v} {1 {vlog -work work {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/MUX_4to1.v}
+Model Technology ModelSim PE Student Edition vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module MUX_4to1
+
+Top level modules:
+	MUX_4to1
+
+} {} {}} {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Reg_File.v} {1 {vlog -work work {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Reg_File.v}
+Model Technology ModelSim PE Student Edition vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module Reg_File
+
+Top level modules:
+	Reg_File
+
+} {} {}} {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Decoder.v} {2 {vlog -work work {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Decoder.v}
+Model Technology ModelSim PE Student Edition vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module Decoder
+** Warning: C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Decoder.v(155): (vlog-2600) [RDGN] - Redundant digits in numeric literal.
+
+
+Top level modules:
+	Decoder
+
+} {} {}} {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Instr_Memory.v} {1 {vlog -work work {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/Instr_Memory.v}
+Model Technology ModelSim PE Student Edition vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module Instr_Memory
+
+Top level modules:
+	Instr_Memory
+
+} {} {}} {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/MUX_3to1.v} {1 {vlog -work work {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/MUX_3to1.v}
+Model Technology ModelSim PE Student Edition vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module MUX_3to1
+
+Top level modules:
+	MUX_3to1
+
+} {} {}} {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/ProgramCounter.v} {1 {vlog -work work {C:/Users/user/Desktop/Computer Organisation/Lab3/Lab03/Lab03/ProgramCounter.v}
+Model Technology ModelSim PE Student Edition vlog 10.2c Compiler 2013.07 Jul 18 2013
+-- Compiling module ProgramCounter
+
+Top level modules:
+	ProgramCounter
+
+} {} {}}

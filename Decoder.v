@@ -11,6 +11,7 @@
 
 module Decoder(
     instr_op_i,
+	func_i,
 	RegWrite_o,
 	ALU_op_o,
 	ALUSrc_o,
@@ -26,11 +27,12 @@ module Decoder(
      
 //I/O ports
 input  [6-1:0] instr_op_i;
+input  [6-1:0] func_i;
 
 output         RegWrite_o;
 output [4-1:0] ALU_op_o;
 output [1:0]   ALUSrc_o;
-output         RegDst_o;
+output [1:0]   RegDst_o;
 output         Branch_o;
 
 /***DADA***/
@@ -38,16 +40,16 @@ output reg [2-1:0]	branchType_o;
 
 
 
-output reg	Jump_o;
+output reg [1:0]	Jump_o;
 output reg	MemRead_o;
 output reg	MemWrite_o;
-output reg	MemtoReg_o;
+output reg [1:0]	MemtoReg_o;
  
 //Internal Signals
 reg    [4-1:0] ALU_op_o;
 reg    [1:0]   ALUSrc_o;
 reg            RegWrite_o;
-reg            RegDst_o;
+reg    [1:0]   RegDst_o;
 reg            Branch_o;
 
 //Parameter
@@ -118,7 +120,12 @@ end
 
 always@(*)begin
 	case(instr_op_i)
-		6'b000000:RegWrite_o <= 1;
+		6'b000000:begin
+			if(func_i == 6'b001000)
+				RegWrite_o <= 0;
+			else 
+				RegWrite_o <= 1;
+		end
 		6'b001000:RegWrite_o <= 1;
 		6'b001101:RegWrite_o <= 1;
 		6'b000100:RegWrite_o <= 0;
@@ -127,6 +134,8 @@ always@(*)begin
 		6'b000010:RegWrite_o <= 0;	
 		//lui
 		6'b001111: RegWrite_o <= 1;
+		//jal
+		6'b000011: RegWrite_o <= 1;
 		default: RegWrite_o <= 0;	
 		
 	endcase
@@ -140,9 +149,10 @@ always@(*)begin
 		6'b100011:RegDst_o <= 0;
 		6'b101011:RegDst_o <= 0;		//or X
 		6'b000010:RegDst_o <= 0;		//or X
-
 		//lui
 		6'b001111: RegDst_o <= 0;
+		//jal
+		6'b0000011:RegDst_o <= 2;	
 	endcase
 end
 always@(*)begin
@@ -177,13 +187,16 @@ end
 
 always@(*)begin
 	case(instr_op_i)
-		6'b000000:Jump_o <= 0;
-		6'b001000:Jump_o <= 0;
-		6'b001101:Jump_o <= 0;
-		6'b000100:Jump_o <= 0;
-		6'b100011:Jump_o <= 0;
-		6'b101011:Jump_o <= 0;
 		6'b000010:Jump_o <= 1;
+		//jal
+		6'b000011:Jump_o <= 1;
+		//jr
+		6'b000000:begin
+			if(func_i == 6'b001000)
+				Jump_o <= 2;
+			else 
+				Jump_o <= 0;
+		end
 		default: Jump_o <= 0;
 	endcase
 end
@@ -220,7 +233,12 @@ always@(*)begin
 		6'b100011:MemtoReg_o	<= 1;			
 		6'b101011:MemtoReg_o	<= 0;    //or X	
 		6'b000010:MemtoReg_o	<= 0;
-
+		
+		//lui
+		6'b001111:MemtoReg_o <= 0;
+		
+		//jal
+		6'b000011:MemtoReg_o	<= 2;
 	endcase
 end
 

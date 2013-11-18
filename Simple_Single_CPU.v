@@ -40,7 +40,7 @@ wire [4-1:0] ALUCtrl;
 
 wire [5-1:0] write_reg;
 
-wire  [1:0]reg_des;
+wire  reg_des;
 wire  reg_write;
 wire  [4-1:0] alu_op;
 wire  mem_write;
@@ -52,15 +52,15 @@ wire  overflow_flag;
 wire  select_adder2;
 wire [2:0] bonus;
 wire [2-1:0]branchType;
-wire [1:0]jump;
+wire jump;
 wire memRead;
 wire memWrite;
-wire [1:0] memToReg;
+wire memToReg;
 wire [27:0] temp_jump_add;
 
 wire [31:0] zero_ex;
 assign zero_ex = {16'd0, inst_o[15:0]};
-assign select_adder2 = (branchType==0)?(branch&zero_flag):(branch&ALU_res[0]);
+assign select_adder2 = branch & ALU_res[0];
 assign tem_jump_wire = jump_address[27:0];
 assign jump_address = {adder1_o[31:28],temp_jump_add};
 
@@ -83,10 +83,9 @@ Shift_Left_Two_28 Shifter_jump(
         .data_o(jump_address[27:0])
         ); 		
 
-MUX_3to1 #(.size(32)) Mux_PC_JUMP(
+MUX_2to1 #(.size(32)) Mux_PC_JUMP(
         .data0_i(pc_mux),
         .data1_i(jump_address),
-        .data2_i(RSdata_o),
         .select_i(jump),
         .data_o(pc_source)
         );	
@@ -97,10 +96,9 @@ Instr_Memory IM(
 	    .instr_o(inst_o)    
 	    );
 
-MUX_3to1 #(.size(5)) Mux_Write_Reg(
+MUX_2to1 #(.size(5)) Mux_Write_Reg(
         .data0_i(inst_o[20:16]),
         .data1_i(inst_o[15:11]),
-		.data2_i(5'd31),
         .select_i(reg_des),
         .data_o(write_reg)
         );	
@@ -119,7 +117,6 @@ Reg_File RF(
 //*****************************************************	
 Decoder Decoder(
         .instr_op_i(inst_o[31:26]), 
-		.func_i(inst_o[5:0]),
 	    .RegWrite_o(reg_write), 
 	    .ALU_op_o(alu_op),   
 	    .ALUSrc_o(alu_src),   
@@ -173,10 +170,9 @@ Data_Memory DM(
 	.data_o(memData)
 );
 
-MUX_3to1 #(.size(32)) Mux_Data_Mem(
+MUX_2to1 #(.size(32)) Mux_Data_Mem(
         .data0_i(ALU_res),
         .data1_i(memData),
-		.data2_i(adder1_o),
         .select_i(memToReg),
         .data_o(Reg_Write_Data)
         );	
@@ -193,7 +189,17 @@ Shift_Left_Two_32 Shifter(
         .data_i(SE_data),
         .data_o(SE_data_shift)
         ); 		
-
+		
+/*
+MUX_4to1 #(.size(32)) Mux_PC_Source(
+        .data0_i(branch_data_0),
+        .data1_i(branch_data_1),
+		.data2_i(branch_data_2),
+		.data3_i(branch_data_3),
+        .select_i(branchType),
+        .data_o(branch_data)
+        );	
+*/
 	
 MUX_2to1 #(.size(32)) Mux_PC_Source(
         .data0_i(adder1_o),

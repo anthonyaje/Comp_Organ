@@ -23,8 +23,12 @@ reg    [32-1:0]	 instr_o;
 integer          i;
 
 //32 words Memory
+<<<<<<< HEAD
 //reg    [32-1:0]  Instr_Mem [0:32-1];
 reg    [32-1:0]  Instr_Mem [0:100-1];
+=======
+reg    [32-1:0]  Instr_Mem [0:50-1];
+>>>>>>> 38a1df1ea0865aa49c59c219a42b79c2aac4b039
 
 //Parameter
     
